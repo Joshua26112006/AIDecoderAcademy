@@ -445,7 +445,13 @@ export function LecturePanel({ profile: _profile, chapterTitle, onClose, onSpeak
               <button
                 onClick={voice.toggleMute}
                 title={voice.muted ? "Unmute Bhavna" : "Mute Bhavna"}
-                className="w-9 h-9 rounded-full flex items-center justify-center"
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.boxShadow = `0 0 12px ${GOLD_GLOW}`;
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.boxShadow = "none";
+                }}
+                className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
                 style={{
                   background: voice.muted ? "rgba(224,177,76,0.35)" : "rgba(224,177,76,0.55)",
                   border: `1px solid ${GOLD}`,
@@ -456,7 +462,13 @@ export function LecturePanel({ profile: _profile, chapterTitle, onClose, onSpeak
               <button
                 onClick={handleClose}
                 aria-label="Close lesson"
-                className="w-9 h-9 rounded-full flex items-center justify-center"
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.boxShadow = "0 0 12px rgba(220,38,38,0.6)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.boxShadow = "none";
+                }}
+                className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
                 style={{ background: "rgba(220,38,38,0.55)", border: "1px solid rgba(220,38,38,0.9)" }}
               >
                 <X size={16} color="#08080F" />

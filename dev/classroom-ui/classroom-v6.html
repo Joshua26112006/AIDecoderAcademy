@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classroom — Gamified v6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="classroom-v6.css">
+</head>
+<body>
+
+<!-- ambient playful backdrop -->
+<div class="sky" aria-hidden="true">
+  <span class="blob blob--1"></span>
+  <span class="blob blob--2"></span>
+  <span class="blob blob--3"></span>
+  <span class="blob blob--4"></span>
+  <span class="stars"></span>
+</div>
+
+<div class="page">
+
+  <!-- ====================================================================
+       TOP STRIP — HUD (chapter + game stats) + quest journey
+       ==================================================================== -->
+  <div class="topbar">
+
+    <header class="hud">
+      <div class="hud__chapter">
+        <span class="hud__avatar">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="4.5" y="7" width="15" height="12" rx="4" stroke="currentColor" stroke-width="1.8"/><circle cx="9.5" cy="13" r="1.4" fill="currentColor"/><circle cx="14.5" cy="13" r="1.4" fill="currentColor"/><path d="M12 4v3M9 19v2M15 19v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </span>
+        <span class="hud__chapter-text">
+          <span class="hud__title">Real Numbers</span>
+          <span class="hud__subtitle">CBSE Class 10 • Mathematics</span>
+        </span>
+      </div>
+
+      <div class="hud__stats">
+        <span class="stat stat--level">
+          <span class="stat__badge">7</span>
+          <span class="stat__meta">
+            <span class="stat__label">Level</span>
+            <span class="xpbar"><span class="xpbar__fill"></span></span>
+          </span>
+        </span>
+
+        <span class="stat stat--streak">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3c1 3-1 4-1 6a3 3 0 0 0 6 0c0-1 0-2-1-3 2 1 4 4 4 8a7 7 0 1 1-14 0c0-4 4-6 6-11z" fill="currentColor"/></svg>
+          <span class="stat__num">5</span>
+        </span>
+
+        <span class="stat stat--gems">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 3h12l3 5-9 13L3 8l3-5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" fill="currentColor" fill-opacity="0.25"/><path d="M3 8h18M9 3l-1.5 5L12 21M15 3l1.5 5L12 21" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+          <span class="stat__num">120</span>
+        </span>
+      </div>
+    </header>
+
+    <!-- QUEST JOURNEY — rainbow path of learning phases -->
+    <nav class="journey" aria-label="Learning journey">
+
+      <label class="phase" style="--pc:#FF6B6B;">
+        <input type="radio" name="phase" class="phase__radio" id="p-engagement">
+        <span class="phase__inner">
+          <span class="phase__badge">1<span class="phase__star"><svg viewBox="0 0 24 24"><path d="M12 2l2.7 6.3L21 9l-5 4.3L17.5 21 12 17.4 6.5 21 8 13.3 3 9l6.3-.7L12 2z"/></svg></span></span>
+          <span class="phase__text"><span class="phase__step">Phase 01</span><span class="phase__title">Engagement</span></span>
+        </span>
+      </label>
+
+      <label class="phase" style="--pc:#FFA63C;">
+        <input type="radio" name="phase" class="phase__radio" id="p-exploration">
+        <span class="phase__inner">
+          <span class="phase__badge">2<span class="phase__star"><svg viewBox="0 0 24 24"><path d="M12 2l2.7 6.3L21 9l-5 4.3L17.5 21 12 17.4 6.5 21 8 13.3 3 9l6.3-.7L12 2z"/></svg></span></span>
+          <span class="phase__text"><span class="phase__step">Phase 02</span><span class="phase__title">Exploration</span></span>
+        </span>
+      </label>
+
+      <label class="phase" style="--pc:#FFD23C;">
+        <input type="radio" name="phase" class="phase__radio" id="p-understanding" checked>
+        <span class="phase__inner">
+          <span class="phase__badge">3<span class="phase__star"><svg viewBox="0 0 24 24"><path d="M12 2l2.7 6.3L21 9l-5 4.3L17.5 21 12 17.4 6.5 21 8 13.3 3 9l6.3-.7L12 2z"/></svg></span></span>
+          <span class="phase__text"><span class="phase__step">Phase 03</span><span class="phase__title">Understanding</span></span>
+        </span>
+      </label>
+
+      <label class="phase" style="--pc:#3CCB7F;">
+        <input type="radio" name="phase" class="phase__radio" id="p-thinking">
+        <span class="phase__inner">
+          <span class="phase__badge">4<span class="phase__star"><svg viewBox="0 0 24 24"><path d="M12 2l2.7 6.3L21 9l-5 4.3L17.5 21 12 17.4 6.5 21 8 13.3 3 9l6.3-.7L12 2z"/></svg></span></span>
+          <span class="phase__text"><span class="phase__step">Phase 04</span><span class="phase__title">Thinking Process</span></span>
+        </span>
+      </label>
+
+      <label class="phase" style="--pc:#3CA0FF;">
+        <input type="radio" name="phase" class="phase__radio" id="p-mastery">
+        <span class="phase__inner">
+          <span class="phase__badge">5<span class="phase__star"><svg viewBox="0 0 24 24"><path d="M12 2l2.7 6.3L21 9l-5 4.3L17.5 21 12 17.4 6.5 21 8 13.3 3 9l6.3-.7L12 2z"/></svg></span></span>
+          <span class="phase__text"><span class="phase__step">Phase 05</span><span class="phase__title">Mastery</span></span>
+        </span>
+      </label>
+
+      <label class="phase" style="--pc:#A35CFF;">
+        <input type="radio" name="phase" class="phase__radio" id="p-retention">
+        <span class="phase__inner">
+          <span class="phase__badge">6<span class="phase__star"><svg viewBox="0 0 24 24"><path d="M12 2l2.7 6.3L21 9l-5 4.3L17.5 21 12 17.4 6.5 21 8 13.3 3 9l6.3-.7L12 2z"/></svg></span></span>
+          <span class="phase__text"><span class="phase__step">Phase 06</span><span class="phase__title">Retention</span></span>
+        </span>
+      </label>
+
+    </nav>
+  </div>
+
+  <!-- ====================================================================
+       WORKSPACE
+       ==================================================================== -->
+  <div class="workspace">
+
+    <!-- LEFT — Learning Library (treasure collection) + Dustbin -->
+    <aside class="side side--left">
+      <section class="region side__main">
+        <div class="library__head">
+          <span class="library__title">My Collection</span>
+          <span class="library__count">0</span>
+        </div>
+        <div class="library__empty">
+          <span class="library__chest">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 9a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z" stroke="currentColor" stroke-width="1.6"/><path d="M3 11h18M10 11v3h4v-3" stroke="currentColor" stroke-width="1.6"/><path d="M12 3l2 3H10l2-3z" fill="currentColor"/></svg>
+          </span>
+          <p class="library__msg">Your creations will appear here!</p>
+          <p class="library__hint">Use a tool to earn your first reward ✨</p>
+        </div>
+      </section>
+
+      <div class="side__foot">
+        <span class="trash">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 7h14M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M7 7l1 12a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1l1-12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Bin</span>
+        </span>
+      </div>
+    </aside>
+
+    <!-- CENTER — playful AI Learning Canvas -->
+    <section class="canvas">
+      <div class="canvas__content">
+        <span class="canvas__mode"><span class="canvas__mode-dot"></span></span>
+        <span class="canvas__phase">
+          <span class="canvas__phase-label">Current Quest</span>
+          <span class="canvas__phase-name"></span>
+        </span>
+
+        <div class="canvas__hero">
+          <span class="mascot">
+            <span class="mascot__glow"></span>
+            <svg viewBox="0 0 64 64" fill="none">
+              <rect x="14" y="20" width="36" height="28" rx="12" fill="#fff" stroke="#7C3AED" stroke-width="2.4"/>
+              <circle cx="26" cy="33" r="3.4" fill="#7C3AED"/>
+              <circle cx="38" cy="33" r="3.4" fill="#7C3AED"/>
+              <path d="M27 41c2 2 8 2 10 0" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M32 10v8M32 10l-3 3M32 10l3 3" stroke="#00D4FF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="32" cy="9" r="2.6" fill="#00D4FF"/>
+            </svg>
+          </span>
+          <h2 class="canvas__hero-title">Let's create something awesome!</h2>
+          <p class="canvas__hero-sub">Pick a power-up on the right, or ask me anything about this chapter.</p>
+        </div>
+      </div>
+
+      <div class="canvas__chat">
+        <span class="canvas__chat-spark">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.8 4.6L18.5 9l-4.6 1.8L12 15.5l-1.8-4.6L5.5 9l4.6-1.8L12 3z" fill="currentColor"/></svg>
+        </span>
+        <span class="canvas__chat-placeholder">Ask anything about this chapter…</span>
+        <span class="canvas__chat-send">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+    </section>
+
+    <!-- RIGHT — AI power-up tools -->
+    <aside class="rail">
+      <span class="rail__eyebrow">Power-Ups</span>
+
+      <div class="rail__body">
+
+        <label class="tool" style="--tc:#3b82f6;">
+          <input type="radio" name="tool" class="tool__radio" id="t-flashcards" checked>
+          <span class="tool__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="13" height="9" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="8" y="10" width="13" height="9" rx="2" stroke="currentColor" stroke-width="1.8"/></svg></span>
+          <span class="tool__label">Flashcards</span>
+        </label>
+
+        <label class="tool" style="--tc:#22c55e;">
+          <input type="radio" name="tool" class="tool__radio" id="t-mindmaps">
+          <span class="tool__icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="6" r="2.4" stroke="currentColor" stroke-width="1.8"/><circle cx="6" cy="17" r="2.4" stroke="currentColor" stroke-width="1.8"/><circle cx="18" cy="17" r="2.4" stroke="currentColor" stroke-width="1.8"/><path d="M12 8.4v3.6M11 13.5l-3.4 2M13 13.5l3.4 2" stroke="currentColor" stroke-width="1.7"/></svg></span>
+          <span class="tool__label">Mind Maps</span>
+        </label>
+
+        <label class="tool" style="--tc:#f59e0b;">
+          <input type="radio" name="tool" class="tool__radio" id="t-blogs">
+          <span class="tool__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M5 4h11l3 3v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 10h8M8 14h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+          <span class="tool__label">Blogs</span>
+        </label>
+
+        <label class="tool" style="--tc:#2563eb;">
+          <input type="radio" name="tool" class="tool__radio" id="t-videos">
+          <span class="tool__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="14" height="14" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M17 10l4-2.5v9L17 14M9 9.5l4 2.5-4 2.5v-5z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>
+          <span class="tool__label">Explainer Videos</span>
+        </label>
+
+        <label class="tool" style="--tc:#ec4899;">
+          <input type="radio" name="tool" class="tool__radio" id="t-comic">
+          <span class="tool__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H8l-4 3V6z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M20 11v6a2 2 0 0 1-2 2h-5l-2 1.5V18" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>
+          <span class="tool__label">Comic Creations</span>
+        </label>
+
+        <label class="tool" style="--tc:#06b6d4;">
+          <input type="radio" name="tool" class="tool__radio" id="t-audioov">
+          <span class="tool__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13a7 7 0 0 1 14 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="3.5" y="13" width="4" height="6" rx="1.6" stroke="currentColor" stroke-width="1.8"/><rect x="16.5" y="13" width="4" height="6" rx="1.6" stroke="currentColor" stroke-width="1.8"/></svg></span>
+          <span class="tool__label">Audio Overview</span>
+        </label>
+
+        <label class="tool" style="--tc:#8b5cf6;">
+          <input type="radio" name="tool" class="tool__radio" id="t-infographic">
+          <span class="tool__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 12V4a8 8 0 1 1-8 8h8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 12l5.6 5.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+          <span class="tool__label">Infographic</span>
+        </label>
+
+        <label class="tool" style="--tc:#f97316;">
+          <input type="radio" name="tool" class="tool__radio" id="t-podcast">
+          <span class="tool__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="9" y="3" width="6" height="11" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M6 11a6 6 0 0 0 12 0M12 17v3M9 20h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+          <span class="tool__label">Audio Podcast</span>
+        </label>
+
+        <label class="tool" style="--tc:#7c3aed;">
+          <input type="radio" name="tool" class="tool__radio" id="t-notes">
+          <span class="tool__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M6 3h9l3 3v15H6V3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 9h6M9 13h6M9 17h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+          <span class="tool__label">Notes</span>
+        </label>
+
+      </div>
+    </aside>
+
+  </div>
+
+</div>
+
+</body>
+</html>

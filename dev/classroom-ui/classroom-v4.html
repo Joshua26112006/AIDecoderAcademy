@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classroom — Learning Journey v4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="classroom-v4.css">
+</head>
+<body>
+
+<div class="page">
+
+  <!-- THREE-COLUMN WORKSPACE -->
+  <div class="workspace">
+
+    <!-- LEFT — Learning Journey (designed this iteration) -->
+    <aside class="journey">
+      <div class="journey__head">
+        <span class="journey__eyebrow">Learning Journey</span>
+        <span class="journey__progress">3 / 6</span>
+      </div>
+
+      <nav class="journey__path">
+        <span class="journey__spine" aria-hidden="true"></span>
+
+        <!-- completed -->
+        <button class="phase phase--done" type="button">
+          <span class="phase__node">
+            <svg class="phase__check" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4 4 10-10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="phase__label">Engagement</span>
+        </button>
+
+        <!-- completed -->
+        <button class="phase phase--done" type="button">
+          <span class="phase__node">
+            <svg class="phase__check" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4 4 10-10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="phase__label">Exploration</span>
+        </button>
+
+        <!-- active -->
+        <button class="phase phase--active" type="button" aria-current="step">
+          <span class="phase__node"><span class="phase__index">3</span></span>
+          <span class="phase__label">Understanding</span>
+        </button>
+
+        <!-- upcoming -->
+        <button class="phase" type="button">
+          <span class="phase__node"><span class="phase__index">4</span></span>
+          <span class="phase__label">Thinking Process</span>
+        </button>
+
+        <button class="phase" type="button">
+          <span class="phase__node"><span class="phase__index">5</span></span>
+          <span class="phase__label">Mastery</span>
+        </button>
+
+        <button class="phase" type="button">
+          <span class="phase__node"><span class="phase__index">6</span></span>
+          <span class="phase__label">Retention</span>
+        </button>
+      </nav>
+    </aside>
+
+    <!-- CENTER — AI Learning Canvas (unchanged skeleton) -->
+    <section class="canvas">
+      <div class="canvas__head">
+        <span class="region__tag">Chapter Title</span>
+        <span class="region__hint">subtitle / progress</span>
+      </div>
+      <div class="canvas__content">
+        <span class="region__tag region__tag--lg">AI Learning Canvas</span>
+        <span class="region__hint">≈60% · dominant content area</span>
+      </div>
+      <div class="canvas__chat">
+        <span class="region__tag">AI Chat Input</span>
+        <span class="region__hint">anchored inside canvas</span>
+      </div>
+    </section>
+
+    <!-- RIGHT — My Creations (unchanged skeleton) -->
+    <section class="region region--right">
+      <span class="region__tag">My Creations</span>
+      <span class="region__hint">≈22%</span>
+    </section>
+
+  </div>
+
+  <!-- OUTPUT GENERATION DOCK (unchanged skeleton) -->
+  <section class="region region--dock">
+    <span class="region__tag">Output Generation Dock</span>
+  </section>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,276 @@
+/* ==========================================================================
+   Classroom Page — Skeleton Wireframe v3
+   Iteration 2 IA: top horizontal Learning Journey · left Learning Library ·
+   dominant center canvas · narrow right tool rail.
+   Layout / proportions / IA only — components refined in later iterations.
+   Fits the viewport — no vertical scroll. Futuristic-education theme.
+   ========================================================================== */
+
+:root {
+  --bg: #07070d;
+  --surface-1: #0d0d18;
+  --surface-2: #131321;
+  --surface-3: #1b1b2e;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-dash: rgba(255, 255, 255, 0.16);
+
+  --text-primary: #f3f3f8;
+  --text-secondary: rgba(243, 243, 248, 0.6);
+  --text-tertiary: rgba(243, 243, 248, 0.4);
+
+  --accent-1: #7c3aed; /* violet */
+  --accent-2: #00d4ff; /* cyan */
+  --blue: #38bdf8;
+
+  --radius: 18px;
+  --gap: 16px;
+  --pad: 16px;
+
+  --font-display: "Syne", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  overflow: hidden; /* no vertical scroll */
+}
+
+ul { margin: 0; padding: 0; list-style: none; }
+
+/* --------------------------------------------------------------------------
+   Page — top journey (auto) + workspace (fills), sized to 100vh
+   -------------------------------------------------------------------------- */
+
+.page {
+  height: 100vh;
+  padding: var(--pad);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: var(--gap);
+  background:
+    radial-gradient(1000px 480px at 12% -12%, rgba(124, 58, 237, 0.16), transparent),
+    radial-gradient(1000px 480px at 100% -8%, rgba(0, 212, 255, 0.10), transparent),
+    var(--bg);
+}
+
+/* ==========================================================================
+   TOP — horizontal Learning Journey (connected progression, not a nav bar)
+   ========================================================================== */
+
+/* slim arrow ribbon — each phase is an arrow segment pointing to the next */
+.journey {
+  display: flex;
+}
+
+.journey__track {
+  display: flex;
+  align-items: stretch;
+  gap: 3px;
+  width: 100%;
+  height: 46px;
+}
+
+/* arrow-shaped segment: left notch + right point, so they read as a chevron flow */
+.phase {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 22px 0 30px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015)),
+    var(--surface-2);
+  clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 0 100%, 15px 50%);
+}
+
+/* first segment: flat left edge (start of the journey) */
+.phase:first-child {
+  clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 0 100%);
+  padding-left: 20px;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+.phase__num {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--blue);
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.phase__label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12.5px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   WORKSPACE — Library (left) · Canvas (center, dominant) · Tool rail (right)
+   ========================================================================== */
+
+.workspace {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr) 96px; /* dominant canvas · narrow rail */
+  gap: var(--gap);
+}
+
+/* --------------------------------------------------------------------------
+   Shared skeleton region
+   -------------------------------------------------------------------------- */
+
+.region {
+  position: relative;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--pad);
+  min-height: 0;
+}
+
+.region__tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.region__tag--lg {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--text-primary);
+}
+
+.region__hint {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+/* --------------------------------------------------------------------------
+   LEFT — Learning Library: empty panel (fills) + Dustbin foot
+   -------------------------------------------------------------------------- */
+
+.side {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: var(--gap);
+}
+
+.side__main {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.side__foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 84px;
+  border: 1px dashed var(--border-dash);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.012);
+}
+
+.side__foot .region__hint { opacity: 0.5; }
+
+/* --------------------------------------------------------------------------
+   CENTER — AI Learning Canvas (dominant unified panel)
+   -------------------------------------------------------------------------- */
+
+.canvas {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: var(--gap);
+  padding: var(--pad);
+  background:
+    radial-gradient(520px 320px at 50% 40%, rgba(0, 212, 255, 0.07), transparent),
+    var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.canvas__head,
+.canvas__content,
+.canvas__chat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px dashed var(--border-dash);
+  border-radius: 12px;
+  min-height: 0;
+}
+
+.canvas__head { flex-direction: row; gap: 12px; padding: 12px var(--pad); }
+.canvas__chat { min-height: 64px; padding: 12px var(--pad); }
+
+/* --------------------------------------------------------------------------
+   RIGHT — narrow AI Generation Tools rail + AI Teacher foot
+   -------------------------------------------------------------------------- */
+
+.rail {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  padding: 14px 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.rail__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  text-align: center;
+}
+
+/* empty interior — reserved for future tool entries */
+.rail__body {
+  min-height: 0;
+  border: 1px dashed var(--border-dash);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.012);
+}
+
+.rail__foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 76px;
+  border: 1px dashed var(--border-dash);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.012);
+  text-align: center;
+}
+
+.rail__foot .region__hint { opacity: 0.5; font-size: 9.5px; }

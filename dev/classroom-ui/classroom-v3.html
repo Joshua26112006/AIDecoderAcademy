@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classroom — Skeleton Wireframe v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="classroom-v3.css">
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ====================================================================
+       TOP — slim horizontal LEARNING JOURNEY (arrow-segment progression)
+       ==================================================================== -->
+  <header class="journey">
+    <div class="journey__track">
+      <div class="phase"><span class="phase__num">1</span><span class="phase__label">Engagement</span></div>
+      <div class="phase"><span class="phase__num">2</span><span class="phase__label">Exploration</span></div>
+      <div class="phase"><span class="phase__num">3</span><span class="phase__label">Understanding</span></div>
+      <div class="phase"><span class="phase__num">4</span><span class="phase__label">Thinking Process</span></div>
+      <div class="phase"><span class="phase__num">5</span><span class="phase__label">Mastery</span></div>
+      <div class="phase"><span class="phase__num">6</span><span class="phase__label">Retention</span></div>
+    </div>
+  </header>
+
+  <!-- ====================================================================
+       WORKSPACE — Library · Canvas · Tool rail
+       ==================================================================== -->
+  <div class="workspace">
+
+    <!-- LEFT — Learning Library (content) + Dustbin foot -->
+    <aside class="side side--left">
+      <section class="region side__main">
+        <span class="region__tag">Learning Library</span>
+        <!-- interior reserved for future generated content -->
+      </section>
+
+      <!-- reserved at the bottom of the library sidebar -->
+      <div class="side__foot">
+        <span class="region__hint">Dustbin</span>
+      </div>
+    </aside>
+
+    <!-- CENTER — AI Learning Canvas (dominant, unified panel) -->
+    <section class="canvas">
+      <div class="canvas__head">
+        <span class="region__tag">Chapter Title</span>
+        <span class="region__hint">subtitle / progress</span>
+      </div>
+
+      <div class="canvas__content">
+        <span class="region__tag region__tag--lg">AI Learning Canvas</span>
+        <span class="region__hint">dominant content area</span>
+      </div>
+
+      <div class="canvas__chat">
+        <span class="region__tag">AI Chat Input</span>
+        <span class="region__hint">anchored inside canvas</span>
+      </div>
+    </section>
+
+    <!-- RIGHT — narrow AI Tools rail (empty) + AI Teacher foot -->
+    <aside class="rail">
+      <span class="rail__eyebrow">AI Tools</span>
+
+      <!-- interior reserved for future tool entries -->
+      <div class="rail__body"></div>
+
+      <!-- AI Teacher reserved at the base of the rail -->
+      <div class="rail__foot">
+        <span class="region__hint">AI Teacher</span>
+      </div>
+    </aside>
+
+  </div>
+
+</div>
+
+</body>
+</html>

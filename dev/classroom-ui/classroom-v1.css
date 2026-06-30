@@ -1,0 +1,542 @@
+/* ==========================================================================
+   Classroom Page — Layout Prototype v1
+   Pure HTML/CSS. Static placeholders only. No JS, no framework.
+   ========================================================================== */
+
+:root {
+  /* base surfaces */
+  --bg: #07070d;
+  --surface-1: #0d0d18;
+  --surface-2: #131321;
+  --surface-3: #1b1b2e;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+
+  /* text */
+  --text-primary: #f3f3f8;
+  --text-secondary: rgba(243, 243, 248, 0.62);
+  --text-tertiary: rgba(243, 243, 248, 0.4);
+
+  /* journey accents — one per sidebar stage */
+  --accent-1: #7c3aed; /* Engagement — violet */
+  --accent-2: #00d4ff; /* Exploration — cyan */
+  --accent-3: #ff6b2b; /* Understanding — orange */
+  --accent-4: #00ff94; /* Thinking Process — green */
+  --accent-5: #ff2d78; /* Mastery — pink */
+  --accent-6: #c8ff00; /* Retention — volt */
+
+  /* layout */
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+  --gap: 20px;
+
+  --font-display: "Syne", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  height: 100%;
+}
+
+button {
+  font-family: inherit;
+  color: inherit;
+  cursor: default; /* prototype only — no interaction */
+}
+
+svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ==========================================================================
+   App shell — 4 region grid
+   ========================================================================== */
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 248px 1fr 300px;
+  grid-template-rows: 1fr auto;
+  grid-template-areas:
+    "sidebar workspace creations"
+    "sidebar composer  composer";
+  gap: var(--gap);
+  height: 100vh;
+  padding: var(--gap);
+  background:
+    radial-gradient(900px 500px at 12% -10%, rgba(124, 58, 237, 0.16), transparent),
+    radial-gradient(900px 500px at 100% 0%, rgba(0, 212, 255, 0.10), transparent),
+    var(--bg);
+}
+
+/* ==========================================================================
+   1. LEFT SIDEBAR — learning journey navigation
+   ========================================================================== */
+
+.sidebar {
+  grid-area: sidebar;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  overflow-y: auto;
+}
+
+.sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 6px;
+}
+
+.sidebar__brand-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 13px;
+  color: #07070d;
+}
+
+.sidebar__brand-label {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+}
+
+.sidebar__section-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  padding: 0 6px;
+}
+
+.sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nav-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 14px 14px 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  text-align: left;
+  overflow: hidden;
+}
+
+.nav-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10%;
+  bottom: 10%;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--card-accent);
+  opacity: 0.85;
+}
+
+.nav-card--1 { --card-accent: var(--accent-1); }
+.nav-card--2 { --card-accent: var(--accent-2); }
+.nav-card--3 { --card-accent: var(--accent-3); }
+.nav-card--4 { --card-accent: var(--accent-4); }
+.nav-card--5 { --card-accent: var(--accent-5); }
+.nav-card--6 { --card-accent: var(--accent-6); }
+
+.nav-card__index {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-tertiary);
+  position: absolute;
+  top: 8px;
+  right: 12px;
+}
+
+.nav-card__icon {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--card-accent) 16%, var(--surface-3));
+  color: var(--card-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+}
+
+.nav-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.nav-card__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.nav-card__sub {
+  font-size: 11.5px;
+  color: var(--text-tertiary);
+}
+
+/* ==========================================================================
+   2. CENTER WORKSPACE — main learning canvas
+   ========================================================================== */
+
+.workspace {
+  grid-area: workspace;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-height: 0;
+}
+
+.workspace__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.workspace__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.workspace__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+}
+
+.workspace__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 26px;
+}
+
+.workspace__badge {
+  flex: none;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  border: 1px solid var(--border-strong);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+}
+
+.workspace__canvas {
+  flex: 1;
+  min-height: 0;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.workspace__canvas-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  max-width: 320px;
+}
+
+.workspace__canvas-icon {
+  width: 46px;
+  height: 46px;
+  padding: 11px;
+  border-radius: 14px;
+  background: var(--surface-3);
+  color: var(--accent-2);
+}
+
+.workspace__canvas-label {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text-primary);
+}
+
+.workspace__canvas-hint {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--text-tertiary);
+}
+
+/* ==========================================================================
+   3. RIGHT SIDEBAR — My Creations library
+   ========================================================================== */
+
+.creations {
+  grid-area: creations;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+}
+
+.creations__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.creations__count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  background: var(--surface-3);
+  border-radius: 999px;
+  padding: 2px 9px;
+}
+
+.creations__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.creation-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.creation-card__icon {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  padding: 7px;
+  border-radius: 9px;
+  background: var(--surface-3);
+}
+
+.creation-card__icon--notes       { color: #8aa0ff; }
+.creation-card__icon--flash       { color: #00d4ff; }
+.creation-card__icon--mindmap     { color: #00ff94; }
+.creation-card__icon--podcast     { color: #ff2d78; }
+.creation-card__icon--infographic { color: #c8ff00; }
+
+.creation-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.creation-card__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.creation-card__meta {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-tertiary);
+}
+
+/* ==========================================================================
+   4. BOTTOM COMPOSER — chat input + output type dock
+   ========================================================================== */
+
+.composer {
+  grid-area: composer;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.composer__bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface-1);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+}
+
+.composer__prompt-icon {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  color: var(--accent-2);
+}
+
+.composer__placeholder {
+  flex: 1;
+  font-size: 13.5px;
+  color: var(--text-tertiary);
+}
+
+.composer__send {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #07070d;
+  padding: 9px;
+}
+
+.composer__dock {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.dock-tile {
+  flex: 1 0 0;
+  min-width: 108px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 8px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.dock-tile__icon {
+  width: 22px;
+  height: 22px;
+  color: var(--text-secondary);
+}
+
+.dock-tile__label {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   Responsive structure
+   ========================================================================== */
+
+@media (max-width: 1280px) {
+  .app-shell {
+    grid-template-columns: 220px 1fr 260px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .app-shell {
+    grid-template-columns: 1fr 280px;
+    grid-template-rows: auto 1fr auto auto;
+    grid-template-areas:
+      "sidebar  sidebar"
+      "workspace creations"
+      "composer composer";
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .sidebar {
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: visible;
+  }
+
+  .sidebar__brand,
+  .sidebar__section-label {
+    display: none;
+  }
+
+  .sidebar__nav {
+    flex-direction: row;
+  }
+
+  .nav-card {
+    min-width: 190px;
+  }
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "sidebar"
+      "workspace"
+      "creations"
+      "composer";
+  }
+
+  .workspace {
+    min-height: 320px;
+  }
+
+  .dock-tile {
+    min-width: 92px;
+  }
+}

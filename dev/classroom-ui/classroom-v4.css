@@ -1,0 +1,321 @@
+/* ==========================================================================
+   Classroom Page — v4
+   SCOPE: Learning Journey sidebar only. Everything else stays skeleton.
+   Premium sequential pathway · glassmorphism · subtle blue glow.
+   ========================================================================== */
+
+:root {
+  --bg: #07070d;
+  --surface-1: #0d0d18;
+  --surface-2: #131321;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-dash: rgba(255, 255, 255, 0.16);
+
+  --text-primary: #f3f3f8;
+  --text-secondary: rgba(243, 243, 248, 0.6);
+  --text-tertiary: rgba(243, 243, 248, 0.4);
+
+  --accent-1: #7c3aed; /* violet */
+  --accent-2: #00d4ff; /* cyan */
+
+  /* journey-specific blue signature */
+  --blue:        #38bdf8;
+  --blue-bright: #00d4ff;
+  --blue-deep:   #0284c7;
+  --blue-glow:   rgba(0, 212, 255, 0.45);
+  --blue-glow-soft: rgba(0, 212, 255, 0.16);
+
+  --radius: 18px;
+  --gap: 16px;
+  --pad: 16px;
+
+  --font-display: "Syne", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  overflow: hidden;
+}
+
+button { font-family: inherit; color: inherit; cursor: pointer; }
+svg { display: block; }
+
+/* --------------------------------------------------------------------------
+   Page shell (unchanged from v3)
+   -------------------------------------------------------------------------- */
+
+.page {
+  height: 100vh;
+  padding: var(--pad);
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: var(--gap);
+  background:
+    radial-gradient(1000px 480px at 12% -12%, rgba(124, 58, 237, 0.16), transparent),
+    radial-gradient(1000px 480px at 100% -8%, rgba(0, 212, 255, 0.10), transparent),
+    var(--bg);
+}
+
+.workspace {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 18fr 60fr 22fr;
+  gap: var(--gap);
+}
+
+/* --------------------------------------------------------------------------
+   Skeleton blocks (center / right / dock) — unchanged
+   -------------------------------------------------------------------------- */
+
+.region,
+.canvas {
+  min-height: 0;
+}
+
+.region {
+  position: relative;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: var(--pad);
+}
+
+.region__tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.region__tag--lg {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--text-primary);
+}
+
+.region__hint {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.canvas {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: var(--gap);
+  padding: var(--pad);
+  background:
+    radial-gradient(420px 280px at 50% 40%, rgba(0, 212, 255, 0.07), transparent),
+    var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.canvas__head,
+.canvas__content,
+.canvas__chat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px dashed var(--border-dash);
+  border-radius: 12px;
+  min-height: 0;
+}
+
+.canvas__head { flex-direction: row; gap: 12px; padding: 12px var(--pad); }
+.canvas__chat { min-height: 64px; padding: 12px var(--pad); }
+
+.region--dock {
+  flex-direction: row;
+  justify-content: flex-start;
+  min-height: 92px;
+}
+
+/* ==========================================================================
+   LEARNING JOURNEY — designed component
+   ========================================================================== */
+
+.journey {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  padding: 24px 18px;
+  border-radius: var(--radius);
+
+  /* glassmorphism panel */
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015)),
+    rgba(13, 13, 24, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 60px rgba(0, 212, 255, 0.06);
+}
+
+/* ---- header ---- */
+.journey__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 6px;
+}
+
+.journey__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+.journey__progress {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+/* ---- the pathway ---- */
+.journey__path {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1;
+  justify-content: space-between;
+  padding: 4px 6px;
+}
+
+/* continuous spine connecting all nodes */
+.journey__spine {
+  position: absolute;
+  left: calc(6px + 17px);   /* center of the 34px node column */
+  top: 24px;
+  bottom: 24px;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    180deg,
+    var(--blue-bright) 0%,
+    var(--blue-deep) 38%,            /* progress fill stops near active */
+    rgba(255, 255, 255, 0.08) 38%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  border-radius: 2px;
+}
+
+/* ---- a phase node + label ---- */
+.phase {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  text-align: left;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.phase__node {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-2);
+  border: 1.5px solid rgba(255, 255, 255, 0.14);
+  color: var(--text-secondary);
+  transition: all 180ms ease;
+}
+
+.phase__index {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.phase__check {
+  width: 17px;
+  height: 17px;
+}
+
+.phase__label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14.5px;
+  letter-spacing: 0.01em;
+  color: var(--text-secondary);
+  transition: color 180ms ease;
+}
+
+/* ---- hover (upcoming items) ---- */
+.phase:hover {
+  background: rgba(255, 255, 255, 0.035);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.phase:hover .phase__label { color: var(--text-primary); }
+.phase:hover .phase__node {
+  border-color: rgba(56, 189, 248, 0.5);
+  color: var(--blue);
+}
+
+/* ---- completed ---- */
+.phase--done .phase__node {
+  background: linear-gradient(180deg, var(--blue-bright), var(--blue-deep));
+  border-color: transparent;
+  color: #04121f;
+}
+
+.phase--done .phase__label { color: var(--text-secondary); }
+
+/* ---- active (elegant, immediately recognizable) ---- */
+.phase--active {
+  background:
+    linear-gradient(180deg, rgba(0, 212, 255, 0.12), rgba(0, 212, 255, 0.04));
+  border-color: rgba(0, 212, 255, 0.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 24px var(--blue-glow-soft);
+}
+
+.phase--active .phase__node {
+  background: linear-gradient(180deg, #7dd3fc, var(--blue-bright) 55%, var(--blue-deep));
+  border-color: transparent;
+  color: #031024;
+  box-shadow:
+    0 0 0 4px rgba(0, 212, 255, 0.12),
+    0 0 22px var(--blue-glow);
+}
+
+.phase--active .phase__index { font-weight: 700; }
+
+.phase--active .phase__label {
+  color: var(--text-primary);
+}

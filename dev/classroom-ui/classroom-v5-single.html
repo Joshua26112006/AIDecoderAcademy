@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classroom — Learning Journey v5 (single file)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Classroom Page — v5 (HTML + CSS combined into one file)
+   Bright frosted workspace · purple primary · electric-blue glow · glass panels.
+   ========================================================================== */
+
+:root {
+  /* bright base */
+  --bg: #eef0fb;
+  --panel: rgba(255, 255, 255, 0.72);   /* frosted glass panels */
+  --panel-strong: #ffffff;              /* brightest (canvas) */
+  --inset: rgba(124, 58, 237, 0.04);    /* faint tint for reserved areas */
+
+  --border: rgba(124, 58, 237, 0.14);
+  --border-soft: rgba(17, 12, 40, 0.07);
+  --border-dash: rgba(124, 58, 237, 0.22);
+
+  /* ink on light */
+  --text-primary: #16122b;
+  --text-secondary: rgba(22, 18, 43, 0.62);
+  --text-tertiary: rgba(22, 18, 43, 0.42);
+
+  /* accents */
+  --purple: #7c3aed;
+  --purple-deep: #6d28d9;
+  --purple-soft: #a78bfa;
+  --blue: #00b4ff;            /* electric blue */
+  --blue-bright: #00d4ff;
+  --blue-deep: #0284c7;
+  --blue-glow: rgba(0, 180, 255, 0.35);
+
+  /* soft shadows */
+  --shadow-soft: 0 10px 30px rgba(80, 60, 160, 0.10);
+  --shadow-lift: 0 16px 40px rgba(80, 60, 160, 0.16);
+
+  --radius: 18px;
+  --gap: 16px;
+  --pad: 16px;
+
+  --arrow: 12px;
+
+  --font-display: "Sora", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  overflow: hidden;
+  /* dark immersive stage photo — bright frosted panels float + glow on top of it */
+  background:
+    radial-gradient(1300px 460px at 50% 118%, rgba(124, 58, 237, 0.18), transparent),   /* reflective floor glow */
+    radial-gradient(1100px 360px at 50% -16%, rgba(0, 180, 255, 0.12), transparent),     /* top neon rim */
+    url("classroom_bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+ul { margin: 0; padding: 0; list-style: none; }
+a { text-decoration: none; color: inherit; }
+
+.page {
+  height: 100vh;
+  padding: 10px var(--pad) var(--pad);   /* sit closer to the top edge */
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr); /* top strip · workspace */
+  gap: var(--gap);
+}
+
+/* ==========================================================================
+   TOP STRIP — chapter header + journey as one compact navigation area
+   ========================================================================== */
+
+.topbar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;   /* header and journey sit close together */
+}
+
+/* ---- chapter header (compact) ---- */
+.page-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 0 6px;
+}
+
+.page-header__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 0.01em;
+  color: #ffffff;
+  text-shadow: 0 2px 18px rgba(0, 180, 255, 0.25);
+}
+
+.page-header__subtitle {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--purple-soft);
+}
+
+/* ==========================================================================
+   LEARNING JOURNEY — arrow chevrons (neutral · cyan accent on active),
+   with a timeline rail (line + dot under each phase) below.
+   ========================================================================== */
+
+.journey { --acc: #00d4ff; display: flex; flex-direction: column; gap: 9px; }
+
+.journey__track {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 7px;
+  width: 100%;
+  height: 36px;   /* slim strip */
+}
+
+/* ---- timeline rail BELOW the arrows: a line + a dot under each phase ---- */
+.journey__rail {
+  position: relative;
+  display: flex;
+  height: 10px;
+}
+
+/* the base connecting line (neutral), trimmed to the first/last dot centres */
+.journey__rail::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 8.333%;
+  right: 8.333%;
+  height: 2px;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* the accent line filling up to the current phase's dot */
+.journey__rail::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 8.333%;
+  height: 2px;
+  width: var(--rail-progress, 0%);
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, #0284c7, var(--acc));
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.6);
+  border-radius: 2px;
+  z-index: 1;
+  transition: width 380ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* one dot centred under each phase */
+.rail-dot {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+.rail-dot::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 0 3px rgba(10, 6, 30, 0.25);
+  transition: transform 220ms cubic-bezier(0.16, 1.3, 0.4, 1), background 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+/* arrow wrapper = rim (neutral by default) */
+.phase {
+  --rim: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.16));
+  flex: 1;
+  min-width: 0;
+  padding: 1.5px;
+  background: var(--rim);
+  cursor: pointer;
+  filter: drop-shadow(0 2px 5px rgba(18, 10, 48, 0.22));
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1), filter 220ms ease;
+  clip-path: polygon(0 0, calc(100% - var(--arrow)) 0, 100% 50%, calc(100% - var(--arrow)) 100%, 0 100%, var(--arrow) 50%);
+}
+.phase:first-child {
+  clip-path: polygon(0 0, calc(100% - var(--arrow)) 0, 100% 50%, calc(100% - var(--arrow)) 100%, 0 100%);
+}
+
+.phase__radio { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
+
+/* inner frosted glass face (neutral) */
+.phase__inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px 0 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(244, 246, 252, 0.84) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -7px 14px rgba(40, 30, 90, 0.05);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  clip-path: polygon(0 0, calc(100% - var(--arrow)) 0, 100% 50%, calc(100% - var(--arrow)) 100%, 0 100%, var(--arrow) 50%);
+  transition: background 200ms ease;
+}
+.phase:first-child .phase__inner {
+  padding-left: 12px;
+  clip-path: polygon(0 0, calc(100% - var(--arrow)) 0, 100% 50%, calc(100% - var(--arrow)) 100%, 0 100%);
+}
+
+/* neutral number badge */
+.phase__badge {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: #4a4368;
+  background: linear-gradient(180deg, #ffffff, #e7e7f0);
+  border: 1px solid rgba(40, 30, 90, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 1px 2px rgba(40, 30, 90, 0.18);
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1), background 200ms ease, box-shadow 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+
+/* themed phase icon — a real coloured app-icon tile (white glyph on its colour) */
+.phase__icon {
+  --ic: #7c3aed;
+  flex: none;
+  width: 21px;
+  height: 21px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: linear-gradient(150deg, color-mix(in srgb, var(--ic) 72%, white), var(--ic));
+  border: 1px solid color-mix(in srgb, var(--ic) 35%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    0 2px 6px color-mix(in srgb, var(--ic) 42%, transparent);
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 220ms ease, border-color 220ms ease;
+}
+.phase__icon svg { width: 13px; height: 13px; display: block; }
+
+.phase__text { display: flex; flex-direction: column; gap: 0; min-width: 0; }
+.phase__step {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--purple);
+  transition: color 200ms ease;
+}
+.phase__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12.5px;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 200ms ease;
+}
+
+/* hover — neutral lift with a subtle cyan hint */
+.phase:hover {
+  --rim: linear-gradient(180deg, rgba(0, 212, 255, 0.5), rgba(0, 212, 255, 0.2));
+  transform: translateY(-2px) scale(1.03);
+  filter: drop-shadow(0 9px 18px rgba(0, 212, 255, 0.28));
+}
+.phase:hover .phase__title { color: #0d0a1f; }
+.phase:hover .phase__icon {
+  transform: translateY(-1px) scale(1.05);
+  border-color: transparent;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 5px 12px color-mix(in srgb, var(--ic) 55%, transparent);
+}
+.phase:focus-within { --rim: var(--acc); }
+
+/* selected — cyan accent, pops larger than neighbours */
+.phase:has(.phase__radio:checked) {
+  --rim: linear-gradient(135deg, #7dd3fc, var(--acc));
+  transform: translateY(-2px) scale(1.1);     /* clearly enlarged */
+  filter: drop-shadow(0 10px 24px rgba(0, 212, 255, 0.6));
+  z-index: 4;
+}
+.phase:has(.phase__radio:checked) .phase__inner {
+  background: linear-gradient(180deg, #ffffff 0%, #e8f8ff 100%);
+  box-shadow: inset 0 1px 0 #ffffff, inset 0 -8px 16px rgba(0, 150, 210, 0.1);
+}
+.phase:has(.phase__radio:checked) .phase__badge {
+  background: linear-gradient(150deg, #7dd3fc, var(--acc) 55%, #0284c7);
+  border-color: transparent;
+  color: #04121f;
+  transform: scale(1.12);
+  animation: badgePulse 2.4s ease-in-out infinite;   /* gentle "you are here" */
+}
+@keyframes badgePulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.18), 0 0 14px rgba(0, 212, 255, 0.55); }
+  50%      { box-shadow: 0 0 0 5px rgba(0, 212, 255, 0.1),  0 0 22px rgba(0, 212, 255, 0.8); }
+}
+.phase:has(.phase__radio:checked) .phase__step { color: #0284c7; }
+.phase:has(.phase__radio:checked) .phase__title { color: #04121f; font-weight: 800; }
+.phase:has(.phase__radio:checked) .phase__icon {
+  transform: scale(1.1);
+  border-color: transparent;
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--ic) 22%, transparent),
+    0 4px 14px color-mix(in srgb, var(--ic) 60%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* ---- rail: line fills + the dot under the active phase lights up ---- */
+.journey:has(#p-engagement:checked)    .journey__rail { --rail-progress: 0%; }
+.journey:has(#p-exploration:checked)   .journey__rail { --rail-progress: 16.667%; }
+.journey:has(#p-understanding:checked) .journey__rail { --rail-progress: 33.333%; }
+.journey:has(#p-thinking:checked)      .journey__rail { --rail-progress: 50%; }
+.journey:has(#p-mastery:checked)       .journey__rail { --rail-progress: 66.667%; }
+.journey:has(#p-retention:checked)     .journey__rail { --rail-progress: 83.333%; }
+
+.journey:has(#p-engagement:checked)    .rail-dot:nth-child(1)::before,
+.journey:has(#p-exploration:checked)   .rail-dot:nth-child(2)::before,
+.journey:has(#p-understanding:checked) .rail-dot:nth-child(3)::before,
+.journey:has(#p-thinking:checked)      .rail-dot:nth-child(4)::before,
+.journey:has(#p-mastery:checked)       .rail-dot:nth-child(5)::before,
+.journey:has(#p-retention:checked)     .rail-dot:nth-child(6)::before {
+  background: linear-gradient(180deg, #7dd3fc, var(--acc));
+  border-color: #b4eeff;
+  transform: scale(1.55);
+  box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.18), 0 0 12px rgba(0, 212, 255, 0.75);
+}
+
+/* ==========================================================================
+   WORKSPACE
+   ========================================================================== */
+
+.workspace {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr) 120px; /* single-column rail; canvas dominant */
+  gap: var(--gap);
+}
+
+/* frosted glass panel base */
+.region {
+  position: relative;
+  background: var(--panel);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow:
+    var(--shadow-soft),
+    0 0 36px rgba(124, 58, 237, 0.18),          /* lift off the dark stage */
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius);
+  padding: var(--pad);
+  min-height: 0;
+}
+
+.region__tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--purple);
+}
+
+.region__tag--lg {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--text-primary);
+}
+
+.region__hint {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+/* LEFT — Learning Library */
+.side {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: var(--gap);
+}
+
+.side__main { min-height: 0; overflow: hidden; }
+
+.side__foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 84px;
+  border: 1px dashed var(--border-dash);
+  border-radius: 14px;
+  background: var(--inset);
+}
+
+.side__foot .region__hint { opacity: 0.7; }
+
+/* CENTER — Canvas: brightest, most dominant, electric-blue glow */
+.canvas {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: var(--gap);
+  padding: var(--pad);
+  background:
+    radial-gradient(560px 340px at 50% 36%, rgba(0, 180, 255, 0.06), transparent),
+    var(--panel-strong);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius);
+  box-shadow:
+    0 0 0 1px rgba(124, 58, 237, 0.08),
+    var(--shadow-lift),
+    0 0 48px rgba(0, 180, 255, 0.14);
+}
+
+.canvas__content,
+.canvas__chat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px dashed var(--border-dash);
+  border-radius: 14px;
+  min-height: 0;
+  background: linear-gradient(180deg, rgba(124, 58, 237, 0.02), transparent);
+}
+
+.canvas__chat { min-height: 64px; padding: 12px var(--pad); }
+
+/* the canvas content area hosts the contextual mode chip */
+.canvas__content { position: relative; }
+
+/* ---- contextual generation-mode indicator (subtle, integrated) ---- */
+.canvas__mode {
+  --mode-color: var(--purple);
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px 5px 10px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--mode-color);
+  background: color-mix(in srgb, var(--mode-color) 8%, white);
+  border: 1px solid color-mix(in srgb, var(--mode-color) 30%, transparent);
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--mode-color) 18%, transparent);
+  transition: color 200ms ease, background 200ms ease,
+              border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.canvas__mode-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--mode-color);
+  box-shadow: 0 0 8px var(--mode-color);
+}
+
+/* the chip label text + accent follow the currently selected tool (CSS-only) */
+.canvas__mode::after { content: "Select a tool"; }
+
+.page:has(#t-flashcards:checked)   .canvas__mode { --mode-color: #3b82f6; }
+.page:has(#t-flashcards:checked)   .canvas__mode::after { content: "Flashcards Mode"; }
+.page:has(#t-mindmaps:checked)     .canvas__mode { --mode-color: #10b981; }
+.page:has(#t-mindmaps:checked)     .canvas__mode::after { content: "Mind Maps Mode"; }
+.page:has(#t-blogs:checked)        .canvas__mode { --mode-color: #f59e0b; }
+.page:has(#t-blogs:checked)        .canvas__mode::after { content: "Blog Mode"; }
+.page:has(#t-videos:checked)       .canvas__mode { --mode-color: #2563eb; }
+.page:has(#t-videos:checked)       .canvas__mode::after { content: "Explainer Video Mode"; }
+.page:has(#t-comic:checked)        .canvas__mode { --mode-color: #ec4899; }
+.page:has(#t-comic:checked)        .canvas__mode::after { content: "Comic Mode"; }
+.page:has(#t-audioov:checked)      .canvas__mode { --mode-color: #06b6d4; }
+.page:has(#t-audioov:checked)      .canvas__mode::after { content: "Audio Overview Mode"; }
+.page:has(#t-infographic:checked)  .canvas__mode { --mode-color: #8b5cf6; }
+.page:has(#t-infographic:checked)  .canvas__mode::after { content: "Infographic Mode"; }
+.page:has(#t-podcast:checked)      .canvas__mode { --mode-color: #f97316; }
+.page:has(#t-podcast:checked)      .canvas__mode::after { content: "Audio Podcast Mode"; }
+.page:has(#t-notes:checked)        .canvas__mode { --mode-color: #7c3aed; }
+.page:has(#t-notes:checked)        .canvas__mode::after { content: "Notes Mode"; }
+
+/* ---- current learning-phase indicator (subtle, top-right of canvas) ---- */
+.canvas__phase {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  text-align: right;
+}
+
+.canvas__phase-label {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.canvas__phase-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  color: var(--purple-deep);
+}
+
+/* the phase name follows the currently selected journey phase (CSS-only) */
+.canvas__phase-name::after { content: "—"; }
+.page:has(#p-engagement:checked)    .canvas__phase-name::after { content: "Engagement"; }
+.page:has(#p-exploration:checked)   .canvas__phase-name::after { content: "Exploration"; }
+.page:has(#p-understanding:checked) .canvas__phase-name::after { content: "Understanding"; }
+.page:has(#p-thinking:checked)      .canvas__phase-name::after { content: "Thinking Process"; }
+.page:has(#p-mastery:checked)       .canvas__phase-name::after { content: "Mastery"; }
+.page:has(#p-retention:checked)     .canvas__phase-name::after { content: "Retention"; }
+
+/* RIGHT — AI Tools rail */
+.rail {
+  /* hug only the space the tools need; don't stretch to full column height.
+     align to top so the bottom-right stays clear for the app's global
+     floating AI Assistant to overlap without covering any Classroom UI. */
+  align-self: start;
+  max-height: calc(100% - 76px);  /* reserved breathing room at bottom-right */
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 8px;
+  background: var(--panel);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow:
+    var(--shadow-soft),
+    0 0 36px rgba(124, 58, 237, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius);
+}
+
+.rail__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--purple);
+  text-align: center;
+}
+
+/* single-column toolbox — every tool visible at once, no scrolling */
+.rail__body {
+  flex: 0 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  padding: 2px;
+}
+
+/* ---- compact text-only tool button (CSS-only radio selection) ---- */
+.tool {
+  --tc: #7c3aed;
+  position: relative;
+  min-width: 0;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6px 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  /* glass face with a faint accent wash from the left → per-tool identity */
+  background:
+    radial-gradient(130% 150% at 0% 50%, color-mix(in srgb, var(--tc) 12%, transparent), transparent 55%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.68));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow:
+    inset 3px 0 0 color-mix(in srgb, var(--tc) 30%, transparent),  /* accent identity edge */
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),                        /* glass highlight */
+    0 4px 12px rgba(80, 60, 160, 0.08),
+    0 0 16px color-mix(in srgb, var(--tc) 13%, transparent);       /* accent underglow */
+  cursor: pointer;
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+/* the radio drives state but is visually hidden */
+.tool__radio {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+.tool__label {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 1.1;
+  text-align: center;
+  /* label carries a subtle hint of the tool's own colour */
+  color: color-mix(in srgb, var(--tc) 32%, var(--text-primary));
+  transition: color 180ms ease;
+}
+
+/* ---- hover (premium micro-interaction) ---- */
+.tool:hover {
+  transform: translateY(-2px) scale(1.02);
+  border-color: color-mix(in srgb, var(--tc) 50%, transparent);
+  box-shadow:
+    inset 3px 0 0 color-mix(in srgb, var(--tc) 45%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 10px 20px rgba(80, 60, 160, 0.14),
+    0 0 22px color-mix(in srgb, var(--tc) 34%, transparent);
+}
+
+.tool:hover .tool__label { color: var(--tc); }
+
+/* keyboard focus */
+.tool:focus-within {
+  border-color: var(--tc);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--tc) 40%, transparent);
+}
+
+/* ---- selected — rewarding: glow + elevation + depth + accent lighting ---- */
+.tool:has(.tool__radio:checked) {
+  border-color: var(--tc);
+  transform: translateY(-1px) scale(1.03);
+  background:
+    radial-gradient(130% 170% at 0% 50%, color-mix(in srgb, var(--tc) 24%, transparent), transparent 60%),
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--tc) 16%, white),
+      color-mix(in srgb, var(--tc) 7%, white));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),                       /* crisp top edge */
+    inset 0 0 14px color-mix(in srgb, var(--tc) 16%, transparent),/* inner accent lighting */
+    0 0 0 1px var(--tc),                                          /* accent ring */
+    0 10px 26px color-mix(in srgb, var(--tc) 38%, transparent),   /* richer shadow */
+    0 0 26px color-mix(in srgb, var(--tc) 34%, transparent);      /* active glow */
+}
+
+.tool:has(.tool__radio:checked) .tool__label {
+  color: var(--tc);
+  font-weight: 700;
+}
+
+/* refined accent tab on the left edge of the selected tool */
+.tool:has(.tool__radio:checked)::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 18px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--tc) 60%, white), var(--tc));
+  box-shadow: 0 0 10px var(--tc);
+  z-index: 2;
+}
+
+/* premium glass reflection sheen on every tool */
+.tool::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(152deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.06) 30%, transparent 52%);
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Respect reduced-motion — keep the polish, drop the animation
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .phase:has(.phase__radio:checked) .phase__badge {
+    animation: none !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ====================================================================
+       TOP STRIP — compact chapter header + learning journey (one area)
+       ==================================================================== -->
+  <div class="topbar">
+
+  <header class="page-header">
+    <h1 class="page-header__title">Real Numbers</h1>
+    <span class="page-header__subtitle">CBSE Class 10 • Mathematics</span>
+  </header>
+
+  <!-- LEARNING JOURNEY (arrow chevrons + timeline rail below) -->
+  <header class="journey">
+    <nav class="journey__track" aria-label="Learning journey">
+
+      <label class="phase">
+        <input type="radio" name="phase" class="phase__radio" id="p-engagement">
+        <span class="phase__inner">
+          <span class="phase__badge">1</span>
+          <span class="phase__icon" style="--ic:#FB7185;"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.6c.6 3.9 1.9 5.2 5.8 5.8-3.9.6-5.2 1.9-5.8 5.8-.6-3.9-1.9-5.2-5.8-5.8 3.9-.6 5.2-1.9 5.8-5.8z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="9.4" r="0.6" fill="currentColor"/></svg></span>
+          <span class="phase__text">
+            <span class="phase__step">Phase 01</span>
+            <span class="phase__title">Engagement</span>
+          </span>
+        </span>
+      </label>
+
+      <label class="phase">
+        <input type="radio" name="phase" class="phase__radio" id="p-exploration">
+        <span class="phase__inner">
+          <span class="phase__badge">2</span>
+          <span class="phase__icon" style="--ic:#14B8A6;"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.4" stroke="currentColor" stroke-width="1.7"/><path d="M15.2 8.8l-2.1 4.3-4.3 2.1 2.1-4.3 4.3-2.1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg></span>
+          <span class="phase__text">
+            <span class="phase__step">Phase 02</span>
+            <span class="phase__title">Exploration</span>
+          </span>
+        </span>
+      </label>
+
+      <label class="phase">
+        <input type="radio" name="phase" class="phase__radio" id="p-understanding" checked>
+        <span class="phase__inner">
+          <span class="phase__badge">3</span>
+          <span class="phase__icon" style="--ic:#F59E0B;"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.2a6.2 6.2 0 0 0-3.8 11.1c.5.4.8 1 .8 1.7v.5h6v-.5c0-.7.3-1.3.8-1.7A6.2 6.2 0 0 0 12 3.2z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.5 19h5M10.6 21.2h2.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M10.5 12.4 12 10.7l1.5 1.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.7"/></svg></span>
+          <span class="phase__text">
+            <span class="phase__step">Phase 03</span>
+            <span class="phase__title">Understanding</span>
+          </span>
+        </span>
+      </label>
+
+      <label class="phase">
+        <input type="radio" name="phase" class="phase__radio" id="p-thinking">
+        <span class="phase__inner">
+          <span class="phase__badge">4</span>
+          <span class="phase__icon" style="--ic:#3B82F6;"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3.3" stroke="currentColor" stroke-width="1.7"/><path d="M12 3.6v2.3M12 18.1v2.3M3.6 12h2.3M18.1 12h2.3M6.1 6.1l1.6 1.6M16.3 16.3l1.6 1.6M17.9 6.1l-1.6 1.6M6.1 17.9l1.6-1.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+          <span class="phase__text">
+            <span class="phase__step">Phase 04</span>
+            <span class="phase__title">Thinking Process</span>
+          </span>
+        </span>
+      </label>
+
+      <label class="phase">
+        <input type="radio" name="phase" class="phase__radio" id="p-mastery">
+        <span class="phase__inner">
+          <span class="phase__badge">5</span>
+          <span class="phase__icon" style="--ic:#EAB308;"><svg viewBox="0 0 24 24" fill="none"><path d="M7.6 4.5h8.8v3.4a4.4 4.4 0 0 1-8.8 0V4.5z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M7.6 6.1H5.3v.9a2.8 2.8 0 0 0 2.8 2.8M16.4 6.1h2.3v.9a2.8 2.8 0 0 1-2.8 2.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M12 12.3v3.9M8.7 20.4h6.6M10.1 20.4l.6-2.4h2.6l.6 2.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="phase__text">
+            <span class="phase__step">Phase 05</span>
+            <span class="phase__title">Mastery</span>
+          </span>
+        </span>
+      </label>
+
+      <label class="phase">
+        <input type="radio" name="phase" class="phase__radio" id="p-retention">
+        <span class="phase__inner">
+          <span class="phase__badge">6</span>
+          <span class="phase__icon" style="--ic:#8B5CF6;"><svg viewBox="0 0 24 24" fill="none"><path d="M7.4 4h9.2a1 1 0 0 1 1 1v14.4a.6.6 0 0 1-.94.5L12 16.7l-4.46 3.2A.6.6 0 0 1 6.4 19.4V5a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>
+          <span class="phase__text">
+            <span class="phase__step">Phase 06</span>
+            <span class="phase__title">Retention</span>
+          </span>
+        </span>
+      </label>
+
+    </nav>
+
+    <!-- timeline rail below the arrows: connecting line + a dot under each phase -->
+    <div class="journey__rail" aria-hidden="true">
+      <span class="rail-dot"></span>
+      <span class="rail-dot"></span>
+      <span class="rail-dot"></span>
+      <span class="rail-dot"></span>
+      <span class="rail-dot"></span>
+      <span class="rail-dot"></span>
+    </div>
+  </header>
+
+  </div><!-- /.topbar -->
+
+  <!-- ====================================================================
+       WORKSPACE — Library · Canvas · Tool rail
+       ==================================================================== -->
+  <div class="workspace">
+
+    <!-- LEFT — Learning Library (empty) + Dustbin foot -->
+    <aside class="side side--left">
+      <section class="region side__main">
+        <span class="region__tag">Learning Library</span>
+      </section>
+      <div class="side__foot">
+        <span class="region__hint">Dustbin</span>
+      </div>
+    </aside>
+
+    <!-- CENTER — AI Learning Canvas (workspace + chat) -->
+    <section class="canvas">
+      <div class="canvas__content">
+        <!-- subtle contextual indicator of the active AI tool / generation mode -->
+        <span class="canvas__mode" aria-live="polite"><span class="canvas__mode-dot"></span></span>
+        <!-- subtle contextual indicator of the current learning phase -->
+        <span class="canvas__phase" aria-live="polite">
+          <span class="canvas__phase-label">Current Learning Phase</span>
+          <span class="canvas__phase-name"></span>
+        </span>
+        <span class="region__tag region__tag--lg">AI Learning Canvas</span>
+        <span class="region__hint">dominant content area</span>
+      </div>
+      <div class="canvas__chat">
+        <span class="region__tag">AI Chat Input</span>
+        <span class="region__hint">anchored inside canvas</span>
+      </div>
+    </section>
+
+    <!-- RIGHT — AI Tools toolbox -->
+    <aside class="rail">
+      <span class="rail__eyebrow">AI Tools</span>
+
+      <div class="rail__body">
+
+        <label class="tool" style="--tc:#3b82f6;">
+          <input type="radio" name="tool" class="tool__radio" id="t-flashcards" checked>
+          <span class="tool__label">Flashcards</span>
+        </label>
+
+        <label class="tool" style="--tc:#10b981;">
+          <input type="radio" name="tool" class="tool__radio" id="t-mindmaps">
+          <span class="tool__label">Mind Maps</span>
+        </label>
+
+        <label class="tool" style="--tc:#f59e0b;">
+          <input type="radio" name="tool" class="tool__radio" id="t-blogs">
+          <span class="tool__label">Blogs</span>
+        </label>
+
+        <label class="tool" style="--tc:#2563eb;">
+          <input type="radio" name="tool" class="tool__radio" id="t-videos">
+          <span class="tool__label">Explainer Videos</span>
+        </label>
+
+        <label class="tool" style="--tc:#ec4899;">
+          <input type="radio" name="tool" class="tool__radio" id="t-comic">
+          <span class="tool__label">Comic Creations</span>
+        </label>
+
+        <label class="tool" style="--tc:#06b6d4;">
+          <input type="radio" name="tool" class="tool__radio" id="t-audioov">
+          <span class="tool__label">Audio Overview</span>
+        </label>
+
+        <label class="tool" style="--tc:#8b5cf6;">
+          <input type="radio" name="tool" class="tool__radio" id="t-infographic">
+          <span class="tool__label">Infographic</span>
+        </label>
+
+        <label class="tool" style="--tc:#f97316;">
+          <input type="radio" name="tool" class="tool__radio" id="t-podcast">
+          <span class="tool__label">Audio Podcast</span>
+        </label>
+
+        <label class="tool" style="--tc:#7c3aed;">
+          <input type="radio" name="tool" class="tool__radio" id="t-notes">
+          <span class="tool__label">Notes</span>
+        </label>
+
+      </div>
+    </aside>
+
+  </div>
+
+</div>
+
+</body>
+</html>
